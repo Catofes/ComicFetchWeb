@@ -32,15 +32,24 @@ class Comic:
         self.db = self.client.comic
 
     def on_get(self, req, resp, comic_id):
-        data = self.db.comic_list.find_one({'_id': ObjectId(comic_id)})
-        if not data:
+        comic_data = self.db.comic_list.find_one({'_id': ObjectId(comic_id)})
+        if not comic_data:
             raise RUtils.RError(404)
-        data = self.db.comic.find({'name': data['name']})
-        result = []
+        data = self.db.comic.find({'name': comic_data['name']})
+        result = {}
+        result['comic'] = {
+            'id': str(comic_data['_id']),
+            'name': comic_data['name'],
+            'update_time': comic_data['update_time']
+        }
+        result['pic'] = []
         for i in data:
-            result.append({
+            if 'update_time' not in i.keys():
+                i['update_time'] = 0
+            result['pic'].append({
                 'chapter': i['chapter'],
-                'pic_num': len(i['pic'])
+                'pic_num': len(i['pic']),
+                'update_time': i['update_time']
             })
         req.context['result'] = result
 
