@@ -49,7 +49,8 @@ class Comic:
             result['pic'].append({
                 'chapter': i['chapter'],
                 'pic_num': len(i['pic']),
-                'update_time': i['update_time']
+                'update_time': i['update_time'],
+                'next': i['next']
             })
         req.context['result'] = result
 
