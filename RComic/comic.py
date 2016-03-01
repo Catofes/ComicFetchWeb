@@ -43,8 +43,8 @@ class Comic:
             'id': str(comic_data['_id']),
             'name': comic_data['name'],
             'update_time': comic_data['update_time'],
-            'mobi': i['mobi'],
-            'mobi_size': i['mobi_size']
+            'mobi': comic_data['mobi'],
+            'mobi_size': comic_data['mobi_size']
         }
         result['pic'] = []
         for i in data:
