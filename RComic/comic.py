@@ -17,7 +17,9 @@ class ComicList:
                 result.append({
                     'id': str(i['_id']),
                     'name': i['name'],
-                    'update_time': i['update_time']
+                    'update_time': i['update_time'],
+                    'mobi': i['mobi'],
+                    'mobi_size': i['mobi_size']
                 })
         if 'offset' in req.params.keys():
             result = result[int(req.params['offset']):]
@@ -40,7 +42,9 @@ class Comic:
         result['comic'] = {
             'id': str(comic_data['_id']),
             'name': comic_data['name'],
-            'update_time': comic_data['update_time']
+            'update_time': comic_data['update_time'],
+            'mobi': i['mobi'],
+            'mobi_size': i['mobi_size']
         }
         result['pic'] = []
         for i in data:
@@ -50,7 +54,9 @@ class Comic:
                 'chapter': i['chapter'],
                 'pic_num': len(i['pic']),
                 'update_time': i['update_time'],
-                'next': i['next']
+                'next': i['next'],
+                'mobi': i['mobi'],
+                'mobi_size': i['mobi_size']
             })
         req.context['result'] = result
 
