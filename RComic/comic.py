@@ -10,7 +10,7 @@ class ComicList:
         self.db = self.client.comic
 
     def on_get(self, req, resp):
-        data = self.db.comic_list.find({"name": {"$exist": True}})
+        data = self.db.comic_list.find({"name": {"$exists": True}})
         result = []
         for i in data:
             if 'name' in i.keys() and 'update_time' in i.keys():
