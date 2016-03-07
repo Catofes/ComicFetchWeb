@@ -52,7 +52,7 @@ class Comic:
                 i['update_time'] = 0
             result['pic'].append({
                 'chapter': i['chapter'],
-                'pic_num': list.sort(i['pic'].keys()),
+                'pic': list.sort(i['pic'].keys()),
                 'update_time': i['update_time'],
                 'next': i['next'],
                 'mobi': i['mobi'],
