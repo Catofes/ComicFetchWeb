@@ -85,3 +85,34 @@ class Watch:
             self.db.comic_list.insert({'url': request['url']})
         else:
             raise RUtils.RError(11)
+
+
+class Admin:
+    def __init__(self, client):
+        self.client = client
+        self.db = self.client.comic
+        self.config = RUtils.RConfig()
+
+    def on_post(self, req, resp):
+        if 'request' not in req.context.keys():
+            raise RUtils.RError(6)
+        request = req.context['request']
+        if 'password' not in request.keys():
+            raise RUtils.RError(8)
+        if request['password'] != self.config.password:
+            raise RUtils.RError(9)
+        if 'id' not in request.keys():
+            raise RUtils.RError(13)
+        chapter = self.db.comic.find_one({"_id": request['id']})
+        if not chapter:
+            raise RUtils.RError(12)
+        if 'method' not in request.keys():
+            raise RUtils.RError(13)
+        if request['method'] == 'reset_mobi':
+            self.db.comic.update_one({"_id": chapter["_id"]}, {"$set": {"mobi": False, "mobi_failed": 0}})
+        elif request['method'] == 'reset_download':
+            self.db.comic.update_one({"_id": chapter["_id"]}, {"$set": {"flag": 0, "download_failed": 0}})
+        elif request['method'] == 'refetch':
+            self.db.comic.update_one({"_id": chapter["_id"]}, {"$set": {"flag": -1}})
+        else:
+            raise RUtils.RError(13)
